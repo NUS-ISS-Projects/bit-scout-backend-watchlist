@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProducer {
 
-    private static final String TOPIC = "watchlist-updates";
-
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(String message) {
-        kafkaTemplate.send(TOPIC, message);
+    public void sendMessage(String topic, String message) {
+        kafkaTemplate.send(topic, message);
     }
 }

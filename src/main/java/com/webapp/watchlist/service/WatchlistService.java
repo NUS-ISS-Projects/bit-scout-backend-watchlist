@@ -1,5 +1,6 @@
 package com.webapp.watchlist.service;
 
+import com.webapp.watchlist.KafkaProducer;
 import com.webapp.watchlist.dto.WatchlistDto;
 import com.webapp.watchlist.entity.Watchlist;
 import com.webapp.watchlist.repository.WatchlistRepository;
@@ -14,6 +15,11 @@ public class WatchlistService {
 
     @Autowired
     private WatchlistRepository watchlistRepository;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
+    private static final String TOPIC = "watchlist-updates";
 
     public WatchlistDto getWatchlistByUserId(Long userId) {
         Optional<Watchlist> watchlistOpt = watchlistRepository.findByUserId(userId);
@@ -33,6 +39,8 @@ public class WatchlistService {
         watchlist.setUserId(watchlistDto.getUserId());
         watchlist.setCryptoIds(watchlistDto.getCryptoIds());
         watchlist = watchlistRepository.save(watchlist);
+
+        kafkaProducer.sendMessage(TOPIC, "User " + watchlist.getUserId() + " created a watchlist");
         return watchlistDto;
     }
 
@@ -46,6 +54,8 @@ public class WatchlistService {
         WatchlistDto watchlistDto = new WatchlistDto();
         watchlistDto.setUserId(userId);
         watchlistDto.setCryptoIds(watchlist.getCryptoIds());
+
+        kafkaProducer.sendMessage(TOPIC, "User " + userId + " added " + cryptoId + " to watchlist");
         return watchlistDto;
     }
 
@@ -59,6 +69,8 @@ public class WatchlistService {
         WatchlistDto watchlistDto = new WatchlistDto();
         watchlistDto.setUserId(userId);
         watchlistDto.setCryptoIds(watchlist.getCryptoIds());
+
+        kafkaProducer.sendMessage(TOPIC, "User " + userId + " removed " + cryptoId + " from watchlist");
         return watchlistDto;
     }
 }

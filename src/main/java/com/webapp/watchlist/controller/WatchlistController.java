@@ -23,6 +23,11 @@ public class WatchlistController {
         }
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Watchlist service is up and running");
+    }
+
     @PostMapping("/")
     public ResponseEntity<WatchlistDto> createOrUpdateWatchlist(@RequestBody WatchlistDto watchlistDto) {
         WatchlistDto updatedWatchlist = watchlistService.createOrUpdateWatchlist(watchlistDto);
