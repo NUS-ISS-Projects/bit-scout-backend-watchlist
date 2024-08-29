@@ -25,7 +25,8 @@ public class WatchlistController {
 
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("Watchlist service is up and running");
+        String podName = System.getenv("HOSTNAME");
+        return ResponseEntity.ok("Watchlist service is up and running on pod: " + podName);
     }
 
     @PostMapping("/")

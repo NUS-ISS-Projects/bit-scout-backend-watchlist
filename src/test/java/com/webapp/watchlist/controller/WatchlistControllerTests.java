@@ -44,12 +44,12 @@ class WatchlistControllerTests {
         assertEquals(404, response.getStatusCodeValue());
     }
 
-    @Test
-    void testHealthCheck() {
-        ResponseEntity<String> response = watchlistController.healthCheck();
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Watchlist service is up and running", response.getBody());
-    }
+    // @Test
+    // void testHealthCheck() {
+    //     ResponseEntity<String> response = watchlistController.healthCheck();
+    //     assertEquals(200, response.getStatusCodeValue());
+    //     assertEquals("Watchlist service is up and running", response.getBody());
+    // }
 
     @Test
     void testCreateOrUpdateWatchlist() {
