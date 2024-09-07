@@ -4,7 +4,9 @@ import com.webapp.watchlist.dto.WatchlistDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +38,7 @@ class WatchlistDtoTests {
 
     @Test
     void testGetCryptoIds() {
-        watchlistDto.setCryptoIds(cryptoIds);
+        watchlistDto.setCryptoIds((List<String>) cryptoIds);
         assertEquals(cryptoIds, watchlistDto.getCryptoIds());
     }
 
@@ -44,21 +46,23 @@ class WatchlistDtoTests {
     void testSetCryptoIds() {
         Set<String> newCryptoIds = new HashSet<>();
         newCryptoIds.add("LTC");
-        watchlistDto.setCryptoIds(newCryptoIds);
+        watchlistDto.setCryptoIds((List<String>) newCryptoIds);
         assertEquals(newCryptoIds, watchlistDto.getCryptoIds());
     }
 
     @Test
     void testToString() {
         watchlistDto.setUserId(1L);
-        watchlistDto.setCryptoIds(cryptoIds);
+        watchlistDto.setCryptoIds((List<String>) cryptoIds);
         String expected = "WatchlistDto{userId=1, cryptoIds=[BTC, ETH]}";
         assertEquals(expected, watchlistDto.toString());
     }
 
     @Test
     void testEmptyCryptoIds() {
-        watchlistDto.setCryptoIds(new HashSet<>());
+        // Convert HashSet to List and set it to watchlistDto
+        watchlistDto.setCryptoIds(new ArrayList<>(new HashSet<>()));
         assertTrue(watchlistDto.getCryptoIds().isEmpty());
     }
+
 }

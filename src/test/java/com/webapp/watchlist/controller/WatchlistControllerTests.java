@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.concurrent.ExecutionException;
+
 class WatchlistControllerTests {
 
     @Mock
@@ -30,7 +32,7 @@ class WatchlistControllerTests {
     }
 
     @Test
-    void testGetWatchlist_Found() {
+    void testGetWatchlist_Found() throws ExecutionException, InterruptedException {
         when(watchlistService.getWatchlistByUserId(1L)).thenReturn(mockWatchlist);
         ResponseEntity<WatchlistDto> response = watchlistController.getWatchlist(1L);
         assertEquals(200, response.getStatusCodeValue());
@@ -38,7 +40,7 @@ class WatchlistControllerTests {
     }
 
     @Test
-    void testGetWatchlist_NotFound() {
+    void testGetWatchlist_NotFound() throws ExecutionException, InterruptedException {
         when(watchlistService.getWatchlistByUserId(2L)).thenReturn(null);
         ResponseEntity<WatchlistDto> response = watchlistController.getWatchlist(2L);
         assertEquals(404, response.getStatusCodeValue());
@@ -46,13 +48,13 @@ class WatchlistControllerTests {
 
     // @Test
     // void testHealthCheck() {
-    //     ResponseEntity<String> response = watchlistController.healthCheck();
-    //     assertEquals(200, response.getStatusCodeValue());
-    //     assertEquals("Watchlist service is up and running", response.getBody());
+    // ResponseEntity<String> response = watchlistController.healthCheck();
+    // assertEquals(200, response.getStatusCodeValue());
+    // assertEquals("Watchlist service is up and running", response.getBody());
     // }
 
     @Test
-    void testCreateOrUpdateWatchlist() {
+    void testCreateOrUpdateWatchlist() throws ExecutionException, InterruptedException {
         when(watchlistService.createOrUpdateWatchlist(mockWatchlist)).thenReturn(mockWatchlist);
         ResponseEntity<WatchlistDto> response = watchlistController.createOrUpdateWatchlist(mockWatchlist);
         assertEquals(200, response.getStatusCodeValue());
@@ -60,7 +62,7 @@ class WatchlistControllerTests {
     }
 
     @Test
-    void testAddCryptoToWatchlist() {
+    void testAddCryptoToWatchlist() throws ExecutionException, InterruptedException {
         when(watchlistService.addCryptoToWatchlist(1L, "BTC")).thenReturn(mockWatchlist);
         ResponseEntity<WatchlistDto> response = watchlistController.addCryptoToWatchlist(1L, "BTC");
         assertEquals(200, response.getStatusCodeValue());
@@ -68,7 +70,7 @@ class WatchlistControllerTests {
     }
 
     @Test
-    void testRemoveCryptoFromWatchlist() {
+    void testRemoveCryptoFromWatchlist() throws ExecutionException, InterruptedException {
         when(watchlistService.removeCryptoFromWatchlist(1L, "BTC")).thenReturn(mockWatchlist);
         ResponseEntity<WatchlistDto> response = watchlistController.removeCryptoFromWatchlist(1L, "BTC");
         assertEquals(200, response.getStatusCodeValue());

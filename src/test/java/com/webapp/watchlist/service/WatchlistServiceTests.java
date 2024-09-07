@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,6 +33,7 @@ class WatchlistServiceTests {
     private Watchlist watchlist;
     private WatchlistDto watchlistDto;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -45,7 +47,7 @@ class WatchlistServiceTests {
 
         watchlistDto = new WatchlistDto();
         watchlistDto.setUserId(1L);
-        watchlistDto.setCryptoIds(cryptoIds);
+        watchlistDto.setCryptoIds((List<String>) cryptoIds);
     }
 
     @Test
@@ -97,4 +99,3 @@ class WatchlistServiceTests {
         verify(kafkaProducer, times(1)).sendMessage(anyString(), anyString());
     }
 }
-
