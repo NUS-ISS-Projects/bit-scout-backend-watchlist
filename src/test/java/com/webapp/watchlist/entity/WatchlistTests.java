@@ -36,14 +36,14 @@ class WatchlistTests {
 
     @Test
     void testGetUserId() {
-        watchlist.setUserId(1L);
-        assertEquals(1L, watchlist.getUserId());
+        watchlist.setUserId("1L");
+        assertEquals("1L", watchlist.getUserId());
     }
 
     @Test
     void testSetUserId() {
-        watchlist.setUserId(2L);
-        assertEquals(2L, watchlist.getUserId());
+        watchlist.setUserId("2L");
+        assertEquals("2L", watchlist.getUserId());
     }
 
     @Test
@@ -63,9 +63,9 @@ class WatchlistTests {
     @Test
     void testToString() {
         watchlist.setId(1L);
-        watchlist.setUserId(1L);
+        watchlist.setUserId("1L");
         watchlist.setCryptoIds(cryptoIds);
-        String expected = "Watchlist{id=1, userId=1, cryptoIds=[BTC, ETH]}";
+        String expected = "Watchlist{id=1, userId=1L, cryptoIds=[BTC, ETH]}";
         assertEquals(expected, watchlist.toString());
     }
 

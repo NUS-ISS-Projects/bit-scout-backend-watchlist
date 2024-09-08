@@ -5,6 +5,6 @@ import com.webapp.watchlist.entity.Watchlist;
 
 import java.util.Optional;
 
-public interface WatchlistRepository extends JpaRepository<Watchlist, Long> {
-    Optional<Watchlist> findByUserId(Long userId);
+public interface WatchlistRepository extends JpaRepository<Watchlist, String> {
+    Optional<Watchlist> findByUserId(String userId);
 }

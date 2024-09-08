@@ -12,7 +12,7 @@ public class Watchlist {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userId;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "watchlist_items", joinColumns = @JoinColumn(name = "watchlist_id"))
@@ -28,11 +28,11 @@ public class Watchlist {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

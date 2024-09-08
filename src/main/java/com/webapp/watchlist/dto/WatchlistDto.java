@@ -3,15 +3,15 @@ package com.webapp.watchlist.dto;
 import java.util.List;
 
 public class WatchlistDto {
-    private Long userId;
+    private String userId;
     private List<String> cryptoIds;
 
     // Getters and Setters
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

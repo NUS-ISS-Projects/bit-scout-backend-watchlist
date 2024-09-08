@@ -14,47 +14,47 @@ import static org.junit.jupiter.api.Assertions.*;
 class WatchlistDtoTests {
 
     private WatchlistDto watchlistDto;
-    private Set<String> cryptoIds;
+    private List<String> cryptoIds;
 
     @BeforeEach
     void setUp() {
         watchlistDto = new WatchlistDto();
-        cryptoIds = new HashSet<>();
+        cryptoIds = new ArrayList<>();
         cryptoIds.add("BTC");
         cryptoIds.add("ETH");
     }
 
     @Test
     void testGetUserId() {
-        watchlistDto.setUserId(1L);
-        assertEquals(1L, watchlistDto.getUserId());
+        watchlistDto.setUserId("123");
+        assertEquals("123", watchlistDto.getUserId());
     }
 
     @Test
     void testSetUserId() {
-        watchlistDto.setUserId(2L);
-        assertEquals(2L, watchlistDto.getUserId());
+        watchlistDto.setUserId("1234");
+        assertEquals("1234", watchlistDto.getUserId());
     }
 
     @Test
     void testGetCryptoIds() {
-        watchlistDto.setCryptoIds((List<String>) cryptoIds);
+        watchlistDto.setCryptoIds(new ArrayList<>(cryptoIds));
         assertEquals(cryptoIds, watchlistDto.getCryptoIds());
     }
 
     @Test
     void testSetCryptoIds() {
-        Set<String> newCryptoIds = new HashSet<>();
+        List<String> newCryptoIds = new ArrayList<>();
         newCryptoIds.add("LTC");
-        watchlistDto.setCryptoIds((List<String>) newCryptoIds);
+        watchlistDto.setCryptoIds(newCryptoIds);
         assertEquals(newCryptoIds, watchlistDto.getCryptoIds());
     }
 
     @Test
     void testToString() {
-        watchlistDto.setUserId(1L);
-        watchlistDto.setCryptoIds((List<String>) cryptoIds);
-        String expected = "WatchlistDto{userId=1, cryptoIds=[BTC, ETH]}";
+        watchlistDto.setUserId("123");
+        watchlistDto.setCryptoIds(new ArrayList<>(cryptoIds));
+        String expected = "WatchlistDto{userId=123, cryptoIds=[BTC, ETH]}";
         assertEquals(expected, watchlistDto.toString());
     }
 

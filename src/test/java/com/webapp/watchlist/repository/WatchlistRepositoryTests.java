@@ -25,23 +25,23 @@ class WatchlistRepositoryTests {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         watchlist = new Watchlist();
-        watchlist.setUserId(1L);
+        watchlist.setUserId("1L");
     }
 
     @Test
     void testFindByUserIdSuccess() {
-        when(watchlistRepository.findByUserId(1L)).thenReturn(Optional.of(watchlist));
+        when(watchlistRepository.findByUserId("1L")).thenReturn(Optional.of(watchlist));
 
-        Optional<Watchlist> result = watchlistRepository.findByUserId(1L);
+        Optional<Watchlist> result = watchlistRepository.findByUserId("1L");
         assertTrue(result.isPresent());
-        assertEquals(1L, result.get().getUserId());
+        assertEquals("1L", result.get().getUserId());
     }
 
     @Test
     void testFindByUserIdNotFound() {
-        when(watchlistRepository.findByUserId(2L)).thenReturn(Optional.empty());
+        when(watchlistRepository.findByUserId("2L")).thenReturn(Optional.empty());
 
-        Optional<Watchlist> result = watchlistRepository.findByUserId(2L);
+        Optional<Watchlist> result = watchlistRepository.findByUserId("2L");
         assertFalse(result.isPresent());
     }
 

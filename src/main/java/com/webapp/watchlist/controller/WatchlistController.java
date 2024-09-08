@@ -2,11 +2,13 @@ package com.webapp.watchlist.controller;
 
 import com.webapp.watchlist.dto.WatchlistDto;
 import com.webapp.watchlist.service.FirebaseService;
+import com.webapp.watchlist.service.UserService;
 import com.webapp.watchlist.service.WatchlistService;
 
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class WatchlistController {
 
     @Autowired
-    private WatchlistService watchlistService;
-
-    @Autowired
     private FirebaseService firebaseService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<WatchlistDto> getWatchlist(@PathVariable Long userId)
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/getWatchList")
+    public ResponseEntity<WatchlistDto> getWatchlist(@RequestHeader("Authorization") String token)
             throws ExecutionException, InterruptedException {
-        // WatchlistDto watchlist = watchlistService.getWatchlistByUserId(userId);
+        String userId = userService.validateTokenAndGetUserId(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         WatchlistDto watchlist = firebaseService.getWatchlistByUserId(userId);
         if (watchlist != null) {
             return ResponseEntity.ok(watchlist);
@@ -38,29 +43,37 @@ public class WatchlistController {
         return ResponseEntity.ok("Watchlist service is up and running on pod: " + podName);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<WatchlistDto> createOrUpdateWatchlist(@RequestBody WatchlistDto watchlistDto)
+    @PostMapping("/create")
+    public ResponseEntity<WatchlistDto> createOrUpdateWatchlist(@RequestHeader("Authorization") String token,
+                                                                @RequestBody WatchlistDto watchlistDto)
             throws ExecutionException, InterruptedException {
-        // WatchlistDto updatedWatchlist =
-        // watchlistService.createOrUpdateWatchlist(watchlistDto);
-        WatchlistDto updatedWatchlist = firebaseService.createOrUpdateWatchlist(watchlistDto);
+        String userId = userService.validateTokenAndGetUserId(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        watchlistDto.setUserId(userId);
+        WatchlistDto updatedWatchlist = firebaseService.createWatchlist(watchlistDto);
         return ResponseEntity.ok(updatedWatchlist);
     }
 
-    @PostMapping("/{userId}/add")
-    public ResponseEntity<WatchlistDto> addCryptoToWatchlist(@PathVariable Long userId, @RequestParam String cryptoId)
+    @PostMapping("/add")
+    public ResponseEntity<WatchlistDto> addCryptoToWatchlist(@RequestHeader("Authorization") String token, @RequestParam String cryptoId)
             throws ExecutionException, InterruptedException {
-        // WatchlistDto updatedWatchlist = watchlistService.addCryptoToWatchlist(userId,
-        // cryptoId);
+        String userId = userService.validateTokenAndGetUserId(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         WatchlistDto updatedWatchlist = firebaseService.addCryptoToWatchlist(userId, cryptoId);
         return ResponseEntity.ok(updatedWatchlist);
     }
 
-    @DeleteMapping("/{userId}/remove")
-    public ResponseEntity<WatchlistDto> removeCryptoFromWatchlist(@PathVariable Long userId,
+    @DeleteMapping("/remove")
+    public ResponseEntity<WatchlistDto> removeCryptoFromWatchlist(@RequestHeader("Authorization") String token,
             @RequestParam String cryptoId) throws ExecutionException, InterruptedException {
-        // WatchlistDto updatedWatchlist =
-        // watchlistService.removeCryptoFromWatchlist(userId, cryptoId);
+        String userId = userService.validateTokenAndGetUserId(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         WatchlistDto updatedWatchlist = firebaseService.removeCryptoFromWatchlist(userId, cryptoId);
         return ResponseEntity.ok(updatedWatchlist);
     }
