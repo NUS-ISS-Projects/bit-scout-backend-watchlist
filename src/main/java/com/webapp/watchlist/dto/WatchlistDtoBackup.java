@@ -1,25 +1,25 @@
 package com.webapp.watchlist.dto;
 
-import java.util.List;
+import java.util.Set;
 
-public class WatchlistDto {
-    private String userId;
-    private List<String> cryptoIds;
+public class WatchlistDtoBackup {
+    private Long userId;
+    private Set<String> cryptoIds;
 
     // Getters and Setters
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public List<String> getCryptoIds() {
+    public Set<String> getCryptoIds() {
         return cryptoIds;
     }
 
-    public void setCryptoIds(List<String> cryptoIds) {
+    public void setCryptoIds(Set<String> cryptoIds) {
         this.cryptoIds = cryptoIds;
     }
 
