@@ -20,8 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String validateTokenAndGetUserId(String token) {
+        // Remove "Bearer " from the token if present
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7); // Remove the "Bearer " part
+        }
+
+        System.out.println("Token: " + token);
         String url = accountUrl + token;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        System.out.println("Response: " + response);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             return Objects.requireNonNull(response.getBody());
