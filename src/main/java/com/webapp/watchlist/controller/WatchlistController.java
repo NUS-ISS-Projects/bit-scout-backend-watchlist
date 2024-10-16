@@ -77,4 +77,18 @@ public class WatchlistController {
         WatchlistDto updatedWatchlist = firebaseService.removeCryptoFromWatchlist(userId, cryptoId);
         return ResponseEntity.ok(updatedWatchlist);
     }
+
+    // Test HPA by increasing the CPU load
+    @GetMapping("/stress")
+    public ResponseEntity<String> stressTest() {
+        int num1 = 0;
+        int num2 = 1;
+        int sum = 0;
+        for (int i = 0; i < 1000000; i++) {
+            sum = num1 + num2;
+            num1 = num2;
+            num2 = sum;
+        }
+        return ResponseEntity.ok("Stress test completed");
+    }
 }
