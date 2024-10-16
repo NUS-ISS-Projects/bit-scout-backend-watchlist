@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WatchlistServiceApplication {
 
 	public static void main(String[] args) {
+		System.exit(0);
 		SpringApplication.run(WatchlistServiceApplication.class, args);
 	}
 
